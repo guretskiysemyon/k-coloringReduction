@@ -91,13 +91,13 @@ As also saved all graphs as images that we used in this readme.
 Firstly, we create graphs where the x-axis varies with k (number of colors) and the y-axis represents the number of inputs that each solver-theory pair solved within a given timeout.
 
 Firstly, we show a theory comparison for the cvc5 solver:
-[](TestResults/GraphImages/all_counted_only_cvc.jpg)
+![](TestResults/GraphImages/all_counted_only_cvc.jpg)
 
 
 Next, we do the same for msat and z3:
-[](TestResults/GraphImages/all_counted_only_msat.jpg)
+![](TestResults/GraphImages/all_counted_only_msat.jpg)
 
-[](TestResults/GraphImages/all_counted_only_z3.jpg)
+![](TestResults/GraphImages/all_counted_only_z3.jpg)
 
 On each of the graphs, you can see a pointed line that represents SageMath's results. Remember that this tool finds the minimal k, so we represent its running time as constant across all k's. It's result is 16.
 
@@ -105,11 +105,11 @@ From the graphs, you can observe that in z3, all theories solved more inputs tha
 
 In the end, we compile all graphs into one image. It may look intense but it is important to see that most solver-theory pairs performed better. You can also go to the source image and zoom in if you need a closer look.
 
-[](TestResults/GraphImages/all_counted.jpg)
+![](TestResults/GraphImages/all_counted.jpg)
 
 
 Now we can see the result for BV and Set in the same format. And we see the same result.
-[](TestResults/GraphImages/BV_S_counted.jpg)
+![](TestResults/GraphImages/BV_S_counted.jpg)
 
 
 ### Second Point of View
@@ -144,11 +144,11 @@ In the second table, z3 generally outperforms cvc5 and msat, with the best resul
 ### Third Point of View.
 In this section, we create graphs where the x-axis corresponds to the range of k's and the y-axis represents the number of inputs solved. However, this time we produce a graph for each theory. A theory is considered to solve an input within a given time if at least one solver can solve it using this theory. We aggregate the results for clarity. Again, our approach proves to be useful as we have the capability to run multiple solvers in parallel. 
 
-[](/TestResults/GraphImages/all_aggr.jpg)
+![](/TestResults/GraphImages/all_aggr.jpg)
 In this case, we can see that all theories perform better than the SageMath tool, but it is difficult to discern the relationship between them.
 
 For BV and Sets
-[](/TestResults/GraphImages/all_aggr_BV.jpg)
+![](/TestResults/GraphImages/all_aggr_BV.jpg)
 
 Here, only BV performs better than SageMath, while Sets achieve almost the same results as SageMath.
 
