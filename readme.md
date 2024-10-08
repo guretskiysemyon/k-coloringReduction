@@ -183,7 +183,7 @@ where 'x' denotes that the (solver, theory) pair did not solve the input.
 Here is a more compact table to show who provided the best result for each file:
 
 
-| File name                   | Best     | Difference to second   |
+| File name                   | Best     | Normalizesd Difference to second   |
 |:----------------------------|:---------|:----------------------:|
 | myciel3.dot                 | cvc-AUF  | 0.00567                |
 | myciel4.dot                 | btor-ABV | 2.3835                 |
