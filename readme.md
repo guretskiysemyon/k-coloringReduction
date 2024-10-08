@@ -60,8 +60,15 @@ We have used the networkx and pydot libraries to read files, which are also comp
 pip install networkx pydot
 ```
 
-After installation, you can run `exampleCVC5.py` and `examplePySMT.py` from Examples directory to ensure that the installation worked.
+Running Examples
+Once all dependencies are installed, you can verify the setup by running the example scripts located in the Examples directory:
 
+```bash
+python Examples/exampleCVC5.py
+python Examples/examplePySMT.py
+```
+
+These scripts will confirm that the installation is successful and working as expected.
 
 
 # Tests
