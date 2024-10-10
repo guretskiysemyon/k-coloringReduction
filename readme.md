@@ -1,11 +1,18 @@
 
 # About
-This project is based on the method described in "Colors Make Theories Hard" by Roberto Sebastiani [1](https://www.researchgate.net/publication/303912889_Colors_Make_Theories_Hard), specifically on proving NP-hardness in various theories like arithmetic and arrays through satisfiability problems. The article introduces reductions from the k-color graph problem to satisfiability problems for given theories, providing various algorithms for graph coloring challenges using these reductions. Our work implements these reductions using pysmt and cvc solvers, thus solving the k-colorability problem in this manner.
+This project is based on the method described in "Colors Make Theories Hard" by Roberto Sebastiani [1](https://www.researchgate.net/publication/303912889_Colors_Make_Theories_Hard), 
+specifically on proving NP-hardness in various theories like arithmetic and arrays through satisfiability 
+problems. The article introduces reductions from the k-color graph problem to satisfiability problems for given
+theories, providing various algorithms for graph coloring challenges using these reductions. Our work implements
+these reductions using pysmt and cvc5, thus solving the k-colorability problem in this manner.
 
-As part of the project, we have run tests on our tools and SageMath, and and compared the results as described below.
+As part of the project, we have run tests on our tools and SageMath, and compared the results as described below.
+
+You can also visit the [web interface](https://guretskiysemyon.github.io/k-colorable-reduction-web/) we created. 
+Please note that it is suitable for small inputs; for larger graphs, it's better to use this code.
 
 
-## Implemented Theories
+## Implemented Reductions -- Theories and Solvers
     msat : LIA, AUF, AINT, ABV, BV,
     z3   : LIA, NLA, AUF, AINT, ABV, BV,
     yices: LIA, BV, 
@@ -20,7 +27,7 @@ Note: msat, z3, yices, and btor are implemented using the pysmt API, while cvc5 
 
 ## Structure of Code
 
-There are different types of Colorers, each representing a specific theory and creating constraints for vertices and colors (You can read more about this in the article). Therefore, there are two abstract classes: ColorerCVC5 and ColorerPySMT. Colorers that extend these classes implement reductions to specific theories (e.g., LIAColorer, BVColorer, etc.).
+There are different types of Colorers, each representing a specific theory and creating constraints for vertices and colors (you can read more about this in the article). Therefore, there are two abstract classes: ColorerCVC5 and ColorerPySMT. Colorers that extend these classes implement reductions to specific theories (e.g., LIAColorer, BVColorer, etc.).
 
 However, there is one abstract class GraphEnc with GraphEncCVC5 and GraphEncPySMT extending it. The difference between these is only in syntax since one works with the PySMT API and the other with the CVC5 API. Both receive a colorer as an argument and add edge constraints ($v_{i}\ne v_{j}$ if they are connected by an edge).
 
@@ -29,7 +36,7 @@ Additionally, there is a reduction.py file that can create a pair of colorer and
 # Installation:
 Since we use pysmt, you first need to install pysmt:
 
-``` bash
+```
 pip install pysmt
 ```
 Then, you can install the necessary solvers:
@@ -51,7 +58,7 @@ pip install cvc5
 
 
 >[Note] - 
-> You can learn more about these tools at the[pysmt](https://github.com/pysmt/pysmt) GitHub repository and [cvc5](https://cvc5.github.io/) website.
+> You can learn more about these tools at the [pysmt](https://github.com/pysmt/pysmt) GitHub repository and [cvc5](https://cvc5.github.io/) website.
 
 
 We have used the networkx and pydot libraries to read files, which are also compatible with SageMath's input formats. To install these libraries, use the following command:
@@ -67,19 +74,121 @@ After installation, you can run `exampleCVC5.py` and `examplePySMT.py` from Exam
 # Tests
 
 ### Benchmarks
-We ran tests on the benchmarks which are in the Benchmarks folder, that are sourced from the DIMACS COLOR02.30.04 challenge. You can view the original DIMACS format and the same graphs but translated to .dot format, in the DOT folder.
+
+We ran tests on the benchmarks located in the Benchmarks folder, which are sourced from the [DIMACS COLOR02.30.04](https://mat.tepper.cmu.edu/COLOR02/) challenge. COLOR02/03/04 was a series of activities aimed at promoting research on computational methods for graph coloring problems. You can find the files we used at this link: [here](https://mat.tepper.cmu.edu/COLOR02/INSTANCES/?C=D;O=A).. In some files, you will find a short description of the file.
+
+
+You can view the original DIMACS format and the same graphs but translated to `.dot` format, in the DOT folder in a compressed way.
 
 Additionally, there is a `sorted_graph_data.csv` file that includes all the files we used, sorted by the number of edges. This file also provides information on the number of vertices and edges for each graph.
 
 
-### Test conditions
-In the script we used, we set a 10-second limit for each graph to determine how many each tool could solve. Since our reduction is a decision problem and requires k (the number of colors) as an argument, we ran tests for all k values in the range of 3 to 20 and all k values in [4,8,16,32,64] for BV and Sets.
+### Test Conditions
+We used the NetworkX and PyDot libraries to read files in both test scenarios. The time taken to read each file was recorded and saved for each graph instance in both cases.
 
-However, SageMath searches for the minimal k, so the conditions for the tools differ, but we have accounted for it.
+#### SageMath
+The SageMath tool takes a graph as an argument and finds the minimum `k` required for vertex coloring without a monochromatic edge. Our script processes all files in the benchmarks folder by performing the following steps for each graph instance:
+1. Read the file and convert it into a NetworkX format.
+2. Pass this format to the graph constructor in SageMath.
+3. Apply `chromatic_number(G)`.
+
+The results are saved in the `res_sage.csv` file in the following format:
+
+| File Name  | Read Time  | k  | Reduction Time  | Process Time  | Total Time |
+|------------|------------|----|-----------------|---------------|------------|
+| myciel3.dot| 0.13314    | 4  | 0.00658         | 0.00936       | 0.01595    |
+
+Where:
+- `Reduction Time` is the time taken by SageMath to convert a graph instance from NetworkX format into its internal format.
+- `Process Time` is the time taken by SageMath to compute the chromatic number.
+- `Total Time` is the sum of `Reduction Time` and `Process Time`.
+
+We set a timeout of 10 seconds for each graph input on 2,3 steps (i.e. without reading).
+If the tool cannot solve the instance within the allotted time, "T" appears in each column except `File Name` and `Read Time`.
+
+| File Name  | Read Time  | k  | Reduction Time  | Process Time  | Total Time |
+|------------|------------|----|-----------------|---------------|------------|
+| myciel3.dot| 0.13314    | T  | T               | T             | T          |
+
+
+
+
+
+
+#### Our Tool
+First, it's important to note that our reduction addresses a decision problem, and `k` is part of the input. 
+In our experiment, we consider the input to be composed of the solver, theory, `k`, and a graph instance in `.dot` format. 
+Due to input differences between SageMath and our tools, we attempt to solve for a range of `k` values. 
+We define two distinct ranges:
+1. For the theories BV and all variations of Sets (SUF, SINT, SBV), the range of `k` values is [4, 8, 16, 32, 64]. 
+We choose these ranges because these theories only work with `k` that is a power of 2.
+2. For all other theories, we select the `k` values range to be all integers from 3 to 20.
+
+For each pair (solver, theory), we run a script that saves results in `res_{solver}_{theory}.csv`. 
+Our script processes all files in the benchmarks folder with the following steps for each graph instance:
+
+1. Read the file and convert it into a NetworkX format.
+2. For each `k` in the range:
+   1. Create a reduction for the given (solver, theory, and graph).
+   2. Apply the `solve()` function.
+
+The results are saved in the `res_{solver}_{theory}.csv` file in the following format:
+
+| File Name  | Read Time | 3    | Reduction Time 3 | Process Time 3 | Total Time 3 | 4    | Reduction Time 4 | ... | Total Time 20 |
+|------------|-----------|------|------------------|----------------|--------------|------|------------------|-----|---------------|
+| myciel3.dot| 0.13314   | False| 0.00658          | 0.00936        | 0.01595      | False| 0.00758          | ... | 0.01885       |
+
+Where:
+- `k` (3, 4, ..., 20) indicates whether the instance is k-colorable (`True`) or not (`False`).
+- `Reduction Time k` is the time taken to create the reduction (logic formula) for this graph input and `k`.
+- `Process Time k` is the time taken by the `solve()` function.
+- `Total Time k` is the sum of `Reduction Time k` and `Process Time k`.
+
+For each graph input and `k`, we set a timeout for steps 2.1 and 2.2 (excluding reading time). If the tool cannot solve the (graph input, `k`) within the allotted time, "T" appears in the columns for `k`, `Reduction Time k`, `Process Time k`, and `Total Time k`.
+
+
+
+
+#### Out tool
+First of all, note that out reduction solves a decision problem and k is a part of a input.
+Therefore, in  our experiment we consider input to be solver, theory, k and graph instance in `.dot` format. Since there is difference in input between sageMath and our tools, we are trying to solve it for range of k-values. There are two different ranges:
+1. For theories BV, all variations of Sets (SUF, SINT, SBV) range of k values is [4,8,16,32,64]. We choose this ranges since those theories works only with k that is power of 2.
+2. For all other theories we choose the k values range to be all numbers from 3 to 20.
+
+
+Foreach pair (solver, theory) we run script that will save results in `res_{solver}_{theory}.csv` file.
+Our script processes all files in the benchmarks folder by performing the following steps for each graph instance:
+
+1. Read the file and convert it into a NetworkX format.
+2. For all k in range
+   1. Create a reduction for given (solver, theory) and graph.
+   2. Apply `solve()` function.
+
+
+The results are saved in the `res_{solver}_{theory}.csv` file in the following format:
+| File Name  | Read Time| 3  |reduction_time_3| process_time_3 | total_time_3 | 4  | reduction_time_4  | ...  | total_time_20 | 
+|:----------:|:--------:|:--:|:--------------:|:--------------:|:------------:|:--:|:-----------------:|:----:|:-------------:|
+| myciel3.dot| 0.13314  |False| 0.00658       | 0.00936        | 0.01595      |False| 0.00758          | ...  | 0.01595       |
+
+
+where 
+- k (3,4,...,20) is the result the `solve()` returned. Trues if instance is k-colorable, and False otherwise.
+- reduction_time_k - is the time that took to create reduction (logic formula) for this graph input an k.
+- process_time_k - time that took to `solve()` function.
+- total_time_k - reduction_time_k + process_time_k
+
+Given a graph input and k, we set timeout on 2.1, 2.2 steps (i.e. without reading.)
+If the tool cannot solve the (graph input, k) within the allotted time, "T" appears in 
+k, reduction_time_k, process_time_k and total_time_k column.
+
+
+
+
 
 ### Results files
-You can find the results file in the TestsResults folder, divided into cvc5 and pysmt sections and sometimes ordered by theory. Additionally, the 10United folder contains all files consolidated in one place.
-As also saved all graphs as images that we used in this readme.
+You TestsResults folder can find the results_csv compressed file with all results that we got, divided into cvc5 and pysmt sections and ordered by theory. 
+Additionally, the 10United folder contains all files consolidated in one place.
+We also saved all graphs as images that we used in this readme in `TestRsults/GraphImages` folder.
 
 
 
@@ -97,16 +206,18 @@ Next, we do the same for msat and z3:
 
 ![](TestResults/GraphImages/all_counted_only_z3.jpg)
 
-On each of the graphs, a pointed line represents SageMath's results. A reminder that this tool finds the minimal k, so we represent its running time as constant across all k's. The result is 16.
+In each of the graphs, a pointed line represents SageMath's results. In our tests, SageMath solved 16 inputs within the given time of 10 seconds per instance. It's important to note that this tool finds the minimal k, so we represent its running time as constant across all k values. Therefore, you can see a constant line on the graphs at
+$y=16$.
 
 From the graphs, note that in z3, all theories solved more inputs than SageMath. In cvc5, all theories except one outperformed SageMath, and in msat, part of the theories did so. We allow ourselves to make this comparison since there is a possibility to run all k's from 3 to 20 in parallel and solve the graph instances in this way. However, it's important to note that this is not a scalable solution (i.e., we cannot do this for large k).
 
-In the end, we compile all graphs into one image. DDespite that this graph is overloaded with information, it is clear that most solver-theory pairs performed better. The source image is available in the files, you can zoom in for higher resolution.
+In the end, we compile all graphs into one image. Although this graph is overloaded with information, it is clear that most solver-theory pairs performed better that baseline tool sageMath. (i.e. solver more instances in given time per instance).
+ The source image is available in the files (path - `TestResults/GraphImages`) , you can zoom in for higher resolution.
 
 ![](TestResults/GraphImages/all_counted.jpg)
 
 
-The results for BV and Set are presented below in the same format. The results are the same.
+Since we tested BV and Sets only on k values that are powers of two in the range (1,64), and other theories do not have results for k values greater than 20, for better visualization we divided it into two different graphs. The results for BV and Sets are presented below in the same format. We can observe a similar result here as well; the number of solved instances for some k is greater than the number solved by SageMath.
 ![](TestResults/GraphImages/BV_S_counted.jpg)
 
 
