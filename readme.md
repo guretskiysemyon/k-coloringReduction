@@ -140,6 +140,9 @@ The code returns a formula, solution, graph details, and timing performance.
 If there was a timeout, just "Timeout" will be printed. Examples are provided 
 below.
 
+
+Also, you can modify and use the Colorer and GraphEnc classes for your development purposes. 
+
 ### Example:
 ```bash
 python3 reduction Benchmarks/graph.dot 3 z3 LIA --t-10
@@ -171,7 +174,6 @@ Reduction creation time : 0.00084 seconds
 Solving time            : 0.010933 seconds
 Total time              : 0.011773 seconds
 ```
-
 
 
 
