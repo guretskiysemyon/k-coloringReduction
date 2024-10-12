@@ -1,6 +1,6 @@
 from pysmt.shortcuts import  And, Equals, Not
-from .GraphEnc import GraphEnc
-from .ColorerPySMT import ArrayUFColorerPySMT, BVColorerPySMT, ArrayBVColorerPySMT
+from GraphEnc import GraphEnc
+from ColorerPySMT import ArrayUFColorerPySMT, BVColorerPySMT, ArrayBVColorerPySMT
 from pysmt.solvers.msat import MathSAT5Solver
 
 

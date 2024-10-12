@@ -1,2 +1,5 @@
 .vscode
 __pycache__
+venv
+Yoni.md
+script_pysmt.py

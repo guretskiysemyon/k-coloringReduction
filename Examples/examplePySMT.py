@@ -100,7 +100,7 @@ print("*****************************************\n\n")
 
 
 
-print("btor and LIA")
+print("btor and BV")
 solver = Solver(name = "btor")
 colorer = BVColorerPySMT(k)
 reduction_graph = GraphEncPySMT(graph, colorer, solver)

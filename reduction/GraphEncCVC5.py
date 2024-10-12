@@ -1,6 +1,6 @@
 from cvc5 import Kind
-from .GraphEnc import GraphEnc
-from . import ColorerCVC5
+from GraphEnc import GraphEnc
+import ColorerCVC5
 
 class GraphEncCVC5(GraphEnc):
     """
@@ -102,7 +102,7 @@ class GraphEncCVC5(GraphEnc):
         # Otherwise, we go through all assignments and create a symbol-integer map ourselves.
         solution = {}
         color_map = {}
-        next_color = 1
+        next_color = 0
         for n in self.graph.nodes():
             term_str = str(self.solver.getValue(symbols[n]))
             if term_str not in color_map:

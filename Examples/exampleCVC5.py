@@ -53,7 +53,6 @@ print("*****************************************\n\n")
 print("Array UF")
 
 solver = Solver()
-# solver.setLogic("QF_LIA")
 solver.setOption("produce-models", "true")
 
 

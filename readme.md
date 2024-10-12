@@ -78,7 +78,7 @@ After installation, you can run `exampleCVC5.py` and `examplePySMT.py` from Exam
 We ran tests on the benchmarks located in the Benchmarks folder, which are sourced from the [DIMACS COLOR02.30.04](https://mat.tepper.cmu.edu/COLOR02/) challenge. COLOR02/03/04 was a series of activities aimed at promoting research on computational methods for graph coloring problems. You can find the files we used at this link: [here](https://mat.tepper.cmu.edu/COLOR02/INSTANCES/?C=D;O=A).. In some files, you will find a short description of the file.
 
 
-You can view the original DIMACS format and the same graphs but translated to `.dot` format, in the DOT folder in a compressed way.
+You can view the original DIMACS format and the same graphs but translated to `.dot` format, in the `Benchmarks/COLOR02.30.04` folder in a compressed way.
 
 Additionally, there is a `sorted_graph_data.csv` file that includes all the files we used, sorted by the number of edges. This file also provides information on the number of vertices and edges for each graph.
 
