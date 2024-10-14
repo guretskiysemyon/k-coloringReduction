@@ -94,24 +94,46 @@ pip install networkx pydot
 
 ## Using Docker Image
 
-You can also pull a docker image with a given code and start a terminal session 
-there.
+You can also pull a Docker image with the given code and start a terminal session there.
 
-You can pull using:
+You can pull the image using:
 ```bash
 docker pull semyonguretskiy/color-reduction:v1
 ```
 
-To run a terminal session you can run:
+To create a container with a terminal session:
 ```bash
-docker run -it semyonguretskiy/color-reduction:v1 bash
+docker run -it --name color-reduction semyonguretskiy/color-reduction:v1 bash
 ```
+This will create a Docker container named `color-reduction`. You can change the name if you prefer.
+
+Later, you can run it using just the name:
+```bash
+docker start -ai color-reduction
+```
+Or use the alternative name you chose.
 
 Note:
-- There are no graph input files, therefore you should mount them or add them in 
-  another way comfortable for you.
-- The first run will need a longer time because of compilation of one of the 
-  dependencies, but after this it will run as usual.
+- There are no graph input files in the image, so you should mount them or add them in another way that's comfortable for you.
+
+To run the mount command, execute the following:
+
+```bash
+docker run -it --name color-reduction -v <full-path-to-your-files>:/app/<destination-path-in-image> semyonguretskiy/color-reduction:v1 bash
+```
+
+For example:
+```bash
+docker run -it --name color-reduction -v <path-to-directory>/Benchmarks/graph.dot:/app/graph.dot semyonguretskiy/color-reduction:v1 bash
+```
+After this, you can simply run:
+```bash
+docker start -ai color-reduction
+```
+and the file will already be mounted.
+
+- The first query in each running will need a longer time because of compilation
+ of one of the dependencies, but after this it will run as usual.
 
 ## How to run 
 
