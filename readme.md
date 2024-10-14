@@ -1,12 +1,13 @@
 # About
-This project is based on the method described in "Colors Make Theories Hard" by 
-Roberto Sebastiani [1](https://www.researchgate.net/publication/303912889_Colors_Make_Theories_Hard), 
-specifically on proving NP-hardness in various theories like arithmetic and 
-arrays through satisfiability problems. The article introduces reductions from 
-the k-color graph problem to satisfiability problems for given theories, 
-providing various algorithms for graph coloring challenges using these 
-reductions. Our work implements these reductions using pysmt and cvc5, thus 
-solving the k-colorability problem in this manner.
+This project is my final project for a degree in Computer Science and was done 
+under the guidance of Dr. Yoni Zohar[1](https://u.cs.biu.ac.il/~zoharyo1/).
+It is based on the method described in "Colors Make Theories Hard" by Roberto Sebastiani [2](https://www.researchgate.net/publication/303912889_Colors_Make_Theories_Hard), 
+specifically on proving NP-hardness in various theories like arithmetic and arrays
+through satisfiability problems. 
+The article introduces reductions from the k-color graph problem to satisfiability
+problems for given theories, providing various algorithms for graph coloring 
+challenges using these reductions. Our work implements these reductions using pysmt and cvc5,
+thus solving the k-colorability problem in this manner.
 
 As part of the project, we have run tests on our tools and SageMath, and 
 compared the results as described below.
@@ -101,11 +102,17 @@ You can pull the image using:
 docker pull semyonguretskiy/color-reduction:v1
 ```
 
-To create a container with a terminal session:
+Note:
+There are no graph input files in the image, so you should mount them or add them
+ in another way that's comfortable for you.
+
+To run the mount command, execute the following:
+
 ```bash
-docker run -it --name color-reduction semyonguretskiy/color-reduction:v1 bash
+docker run -it --name color-reduction -v <full-path-to-your-files>:/app/<destination-path-in-image> semyonguretskiy/color-reduction:v1 bash
 ```
-This will create a Docker container named `color-reduction`. You can change the name if you prefer.
+his will create a Docker container named `color-reduction` (you can change the name if you prefer)
+that will contain the files you included in the specified path.
 
 Later, you can run it using just the name:
 ```bash
@@ -113,26 +120,12 @@ docker start -ai color-reduction
 ```
 Or use the alternative name you chose.
 
-Note:
-- There are no graph input files in the image, so you should mount them or add them in another way that's comfortable for you.
-
-To run the mount command, execute the following:
-
-```bash
-docker run -it --name color-reduction -v <full-path-to-your-files>:/app/<destination-path-in-image> semyonguretskiy/color-reduction:v1 bash
-```
-
 For example:
 ```bash
 docker run -it --name color-reduction -v <path-to-directory>/Benchmarks/graph.dot:/app/graph.dot semyonguretskiy/color-reduction:v1 bash
 ```
-After this, you can simply run:
-```bash
-docker start -ai color-reduction
-```
-and the file will already be mounted.
 
-- The first query in each running will need a longer time because of compilation
+Note: The first query in each running will need a longer time because of compilation
  of one of the dependencies, but after this it will run as usual.
 
 ## How to run 

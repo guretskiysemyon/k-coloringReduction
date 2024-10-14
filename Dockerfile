@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     bison \
     curl \
     git \
+    nano \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
