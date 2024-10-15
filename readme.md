@@ -93,40 +93,49 @@ following command:
 pip install networkx pydot
 ```
 
+
+
+
+
 ## Using Docker Image
 
-You can also pull a Docker image with the given code and start a terminal session there.
+You can pull a Docker image with the following command and start a terminal session within it.
 
-You can pull the image using:
+To pull the image, use:
 ```bash
 docker pull semyonguretskiy/color-reduction:v1
 ```
 
-Note:
-There are no graph input files in the image, so you should mount them or add them
- in another way that's comfortable for you.
+Our benchmarks are already included in the Docker image, so you can simply run the following command:
 
-To run the mount command, execute the following:
+```bash
+docker run -it --name color-reduction semyonguretskiy/color-reduction:v1 bash
+```
+
+This will create a Docker container named `color-reduction` (you can change the name if you prefer).
+
+If you want to add your own files, you can mount them by executing the following command:
 
 ```bash
 docker run -it --name color-reduction -v <full-path-to-your-files>:/app/<destination-path-in-image> semyonguretskiy/color-reduction:v1 bash
 ```
-his will create a Docker container named `color-reduction` (you can change the name if you prefer)
-that will contain the files you included in the specified path.
 
-Later, you can run it using just the name:
+This will create a Docker container named `color-reduction` with the files you included at the specified path.
+
+Later, you can start the container using just its name:
 ```bash
 docker start -ai color-reduction
 ```
+
 Or use the alternative name you chose.
 
-For example:
-```bash
-docker run -it --name color-reduction -v <path-to-directory>/Benchmarks/graph.dot:/app/graph.dot semyonguretskiy/color-reduction:v1 bash
-```
+##### Notes:
+- The first query in each session will take longer because of the compilation of
+ one of the dependencies, but subsequent runs will be faster.
+- Additionally, you can create the Docker image yourself using the provided Dockerfile
+ and `requirements.txt`. You will need to add the `COPY` command if you want to include your files.
 
-Note: The first query in each running will need a longer time because of compilation
- of one of the dependencies, but after this it will run as usual.
+
 
 ## How to run 
 
@@ -510,11 +519,14 @@ Here is a more compact table to show who provided the best result for each file:
 | games120.dot                | sageMath | 6.7356                 |
 | queen8_12.dot               | sageMath | -                      |
 
-For inputs that SageMath successfully solves, it often provides better results 
-than our tool. Only in 5 out of 16 inputs, our tool performed better. The last 
-column calculates the difference between SageMath's result to the second-place 
-result, divided by the best result (in cases where SageMath was the best 
-otherwise the comparison is made with the best solver).
+For inputs that SageMath successfully solves, it often provides better results than
+our tool. In only 5 out of 16 inputs did our tool perform better. The last column
+calculates the normalized difference in the following way:
+
+- If SageMath gave the best result, we calculate the difference between SageMath's
+result and the second-place result, then divide it by SageMath's result.
+- Otherwise, we calculate the difference between the best result and SageMath's 
+result, then divide it by the best result.
 
 The difference between these results is significant, varying from 2 to 75 times 
 the performance of the competing solvers.
