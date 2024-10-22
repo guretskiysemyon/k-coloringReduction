@@ -41,7 +41,8 @@ RUN pip install --no-cache-dir cvc5
 # Copy your application code
 COPY reduction/ ./reduction/
 
-# COPY Benchmarks/COLOR02.30.04/DOT/ ./benchmarks/
+# COPY benchmarks/COLOR02.30.04/DOT/ ./benchmarks/
+# COPY benchmarks/graph.dot ./benchmarks/graph.dot
 
 # Expose the port your app runs on
 EXPOSE 80

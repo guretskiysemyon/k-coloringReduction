@@ -169,7 +169,7 @@ Also, you can modify and use the Colorer and GraphEnc classes for your developme
 
 ### Example:
 ```bash
-python3 reduction Benchmarks/graph.dot 3 z3 LIA --t-10
+python3 reduction benchmarks/graph.dot 3 z3 LIA --t-10
 ```
 
 ```bash
@@ -205,7 +205,7 @@ Total time              : 0.011773 seconds
 
 ### Benchmarks
 
-We ran tests on the benchmarks located in the Benchmarks folder, which are 
+We ran tests on the benchmarks located in the `benchmarks` folder, which are 
 sourced from the [DIMACS COLOR02.30.04](https://mat.tepper.cmu.edu/COLOR02/) 
 challenge. COLOR02/03/04 was a series of activities aimed at promoting research 
 on computational methods for graph coloring problems. You can find the files we 
@@ -214,7 +214,7 @@ In some files, you will find a short description of the file.
 
 
 You can view the original DIMACS format and the same graphs but translated to 
-`.dot` format, in the `Benchmarks/COLOR02.30.04` folder in a compressed way.
+`.dot` format, in the `benchmarks/COLOR02.30.04` folder in a compressed way.
 
 Additionally, there is a `sorted_graph_data.csv` file that includes all the 
 files we used, sorted by the number of edges. This file also provides 

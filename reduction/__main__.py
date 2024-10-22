@@ -125,7 +125,7 @@ def args_validation():
 
     # Not enough arguments
     if len(sys.argv) < 5:
-        print("Usage: python script.py <path_to_dot_file> <num_colors> <solver> <theory> [--ret_mod] [--no-formula]")
+        print("Usage: python reduction <path_to_dot_file> <num_colors> <solver> <theory> [--ret_mod] [--no-formula]")
         sys.exit(1)
 
     # File is not accessible
